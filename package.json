@@ -1,13 +1,13 @@
 {
   "name": "pseudoconvextractor",
   "version": "0.1.0",
-  "description": "exractpseudo from Messenger Conv from file",
+  "description": "Extract data from messenger  'Download Your Information' ",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Kl0ven",
   "license": "ISC",
   "dependencies": {
     "utf8": "^3.0.0"
