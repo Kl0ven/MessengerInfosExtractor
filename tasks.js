@@ -1,7 +1,7 @@
 const utf8 = require('utf8');
 const fs = require("fs");
 
-function get_pseudo_list(file){
+function get_pseudo_list(file, output){
   var msgs = file.messages;
 
   var names = []
@@ -12,17 +12,10 @@ function get_pseudo_list(file){
     }
   }
 
-
-
-  var output = fs.createWriteStream('names.txt');
-  output.on('error', function(err) { console.log("error"); });
   names.forEach(function(v) { output.write(v + '\n'); });
-  output.end();
-
-
 }
 
-function get_ratios(file){
+function get_ratios(file, output){
 
   var participants = file.participants;
   var msgs = file.messages;
@@ -37,18 +30,13 @@ function get_ratios(file){
     resultats[m.sender_name] += 1
     }
 
-    var output = fs.createWriteStream('ratios.txt');
-    output.on('error', function(err) { console.log("error"); });
     for (var p in resultats) {
       output.write(utf8.decode(p) + ', ' + resultats[p] + '\n');
     }
-
-    output.end();
-
 }
 
 
-function get_most_reacted_message(file) {
+function get_most_reacted_message(file, output) {
   var msgs = file.messages;
   var max_reactions = 0
   var messages = []
@@ -57,7 +45,6 @@ function get_most_reacted_message(file) {
     if (m.hasOwnProperty('reactions')){
 
       if (m.reactions.length > max_reactions){
-        console.log(m.reactions.length);
         messages = []
         messages.push(m);
         max_reactions = m.reactions.length
@@ -67,9 +54,9 @@ function get_most_reacted_message(file) {
       }
     }
   }
-  console.log(`Max reaction is ${max_reactions}`);
-  console.log("From thoses messages:");
-  console.log(messages);
+  output.write(`Max reaction is ${max_reactions}\n`);
+  output.write("From thoses messages:\n");
+  output.write(utf8.decode(JSON.stringify(messages, null, 4)));
 }
 
 

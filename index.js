@@ -15,7 +15,10 @@ run_tasks(file, [tasks.get_pseudo_list, tasks.get_ratios, tasks.get_most_reacted
 function run_tasks(file, tasks){
   for (var t in tasks) {
     console.log(`Starting :${tasks[t].name}...`);
-    tasks[t](file)
+    var output = fs.createWriteStream(`Outputs/${tasks[t].name}.txt`);
+    output.on('error', function(err) { console.log("error"); });
+    tasks[t](file, output)
+    output.end();
     console.log(`Finished :${tasks[t].name} !`);
   }
 }

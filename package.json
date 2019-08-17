@@ -1,6 +1,6 @@
 {
   "name": "pseudoconvextractor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Extract data from messenger  'Download Your Information' ",
   "main": "index.js",
   "scripts": {
