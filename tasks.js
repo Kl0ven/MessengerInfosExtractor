@@ -49,7 +49,27 @@ function get_ratios(file){
 
 
 function get_most_reacted_message(file) {
+  var msgs = file.messages;
+  var max_reactions = 0
+  var messages = []
+  for (var i in msgs) {
+    m = msgs[i]
+    if (m.hasOwnProperty('reactions')){
 
+      if (m.reactions.length > max_reactions){
+        console.log(m.reactions.length);
+        messages = []
+        messages.push(m);
+        max_reactions = m.reactions.length
+      }
+      else if (m.reactions.length == max_reactions) {
+        messages.push(m)
+      }
+    }
+  }
+  console.log(`Max reaction is ${max_reactions}`);
+  console.log("From thoses messages:");
+  console.log(messages);
 }
 
 
