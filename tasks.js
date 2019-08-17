@@ -15,7 +15,7 @@ function get_pseudo_list(file, output){
   names.forEach(function(v) { output.write(v + '\n'); });
 }
 
-function get_ratios(file, output){
+function get_numbers_of_msg_per_user(file, output){
 
   var participants = file.participants;
   var msgs = file.messages;
@@ -63,6 +63,6 @@ function get_most_reacted_message(file, output) {
 
 module.exports = {
     get_pseudo_list: get_pseudo_list,
-    get_ratios: get_ratios,
+    get_numbers_of_msg_per_user: get_numbers_of_msg_per_user,
     get_most_reacted_message: get_most_reacted_message
 }

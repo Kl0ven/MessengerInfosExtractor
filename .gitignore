@@ -1,7 +1,4 @@
 message_1.json
-ratios.png
-ratios.txt
-names.txt
 Outputs/get_most_reacted_message.txt
 Outputs/get_pseudo_list.txt
-Outputs/get_ratios.txt
+Outputs/get_numbers_of_msg_per_user.txt
