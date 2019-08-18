@@ -35,6 +35,7 @@ function getNumbersOfMsgPerUser (file, output) {
 	var msgs = file.messages;
 	var resultats = {};
 	let pieData = [];
+	let numberOfMsg = Object.keys(msgs).length;
 	chartExporter.initPool();
 
 	for (let i in participants) {
@@ -49,24 +50,25 @@ function getNumbersOfMsgPerUser (file, output) {
 
 	for (var p in resultats) {
 		output.write(utf8.decode(p) + ', ' + resultats[p] + '\n');
-		pieData.push({name: utf8.decode(p), y: resultats[p]});
+		pieData.push({name: utf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfMsg) * 100).toFixed(2)});
 	}
 	const chartDetails = {
 		type: 'png',
-		scale: 2,
+		scale: 3,
 		options: {
 			chart: {
 				type: 'pie'
 			},
 			title: {
-				text: 'Messages per user'
+				text: `Messages per user / Total : ${numberOfMsg}`
 			},
 			plotOptions: {
 				pie: {
 					dataLabels: {
 						enabled: true,
-						format: '<b>{point.name}</b>: {point.y}'
-					}
+						format: '<b>{point.name}</b><br/> {point.y} ({point.percent}%)'
+					},
+					size: '75%'
 				}
 			},
 			series: [
