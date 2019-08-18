@@ -33,6 +33,7 @@ async function runTasks (file, tasks) {
 
 async function exportDataToPie (chartExporter, chartDetails, path) {
 	return new Promise((resolve, reject) => {
+		console.log('Exporting data to pie chart!');
 		chartExporter.export(chartDetails, (err, res) => {
 			if (err) {
 				reject(err);

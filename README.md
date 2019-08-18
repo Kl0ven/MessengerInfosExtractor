@@ -16,4 +16,5 @@ All results will be available in the Outputs folders, one file for each tasks.
 - getConvNames : get every name of the groupe
 - getNumbersOfMsgPerUser : it speeks for itself
 - getMostReactedMessage : again easy ;)
+- getNumbersOfReactionPerUser 
 - hopefully more to come 😅
