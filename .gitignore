@@ -2,3 +2,4 @@ message_1.json
 Outputs/get_most_reacted_message.txt
 Outputs/get_pseudo_list.txt
 Outputs/get_numbers_of_msg_per_user.txt
+Outputs/get_conv_names.txt

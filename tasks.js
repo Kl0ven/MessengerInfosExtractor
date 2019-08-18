@@ -15,6 +15,22 @@ function get_pseudo_list(file, output){
   names.forEach(function(v) { output.write(v + '\n'); });
 }
 
+
+
+function get_conv_names(file, output){
+  var msgs = file.messages;
+
+  var names = []
+  for (var i in msgs) {
+    m = msgs[i]
+    if (m.hasOwnProperty('content') && m.content.includes("named the group")){
+      names.push(utf8.decode(m.content));
+    }
+  }
+
+  names.forEach(function(v) { output.write(v + '\n'); });
+}
+
 function get_numbers_of_msg_per_user(file, output){
 
   var participants = file.participants;
@@ -64,5 +80,6 @@ function get_most_reacted_message(file, output) {
 module.exports = {
     get_pseudo_list: get_pseudo_list,
     get_numbers_of_msg_per_user: get_numbers_of_msg_per_user,
-    get_most_reacted_message: get_most_reacted_message
+    get_most_reacted_message: get_most_reacted_message,
+    get_conv_names: get_conv_names
 }

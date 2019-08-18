@@ -9,7 +9,7 @@ var contents = fs.readFileSync(message_filename);
 var file = JSON.parse( contents);
 
 
-run_tasks(file, [tasks.get_pseudo_list, tasks.get_numbers_of_msg_per_user, tasks.get_most_reacted_message])
+run_tasks(file, [tasks.get_pseudo_list, tasks.get_numbers_of_msg_per_user, tasks.get_most_reacted_message, tasks.get_conv_names])
 
 
 function run_tasks(file, tasks){
