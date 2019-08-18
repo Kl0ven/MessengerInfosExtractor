@@ -1,6 +1,4 @@
 const utf8 = require('utf8');
-const fs = require('fs');
-const chartExporter = require('highcharts-export-server');
 
 function getPseudoList (file, output) {
 	var msgs = file.messages;
@@ -36,7 +34,6 @@ function getNumbersOfMsgPerUser (file, output) {
 	var resultats = {};
 	let pieData = [];
 	let numberOfMsg = Object.keys(msgs).length;
-	chartExporter.initPool();
 
 	for (let i in participants) {
 		let p = participants[i];
@@ -52,6 +49,7 @@ function getNumbersOfMsgPerUser (file, output) {
 		output.write(utf8.decode(p) + ', ' + resultats[p] + '\n');
 		pieData.push({name: utf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfMsg) * 100).toFixed(2)});
 	}
+
 	const chartDetails = {
 		type: 'png',
 		scale: 3,
@@ -78,21 +76,8 @@ function getNumbersOfMsgPerUser (file, output) {
 			]
 		}
 	};
-	chartExporter.export(chartDetails, (err, res) => {
-		if (err) {
-			console.log(err);
-		}
-		// Get the image data (base64)
-		let imageb64 = res.data;
-		// Filename of the output
-		let outputFile = 'Outputs/Messages_per_User.png';
-		// Save the image to file
-		fs.writeFileSync(outputFile, imageb64, 'base64', function (err) {
-			if (err) console.log(err);
-		});
-		console.log('Saved image!');
-		chartExporter.killPool();
-	});
+
+	return chartDetails;
 }
 
 function getMostReactedMessage (file, output) {
