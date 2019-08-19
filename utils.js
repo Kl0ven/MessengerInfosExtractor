@@ -44,7 +44,23 @@ function createChartDetails (title, data) {
 		}
 	};
 }
+
+function exportData (resultats, output, totalAmount, title) {
+	let pieData = [];
+	var tuples = [];
+	for (var key in resultats) tuples.push([key, resultats[key]]);
+	tuples.sort(function (a, b) {
+		return b[1] - a[1];
+	});
+
+	for (var p in tuples) {
+		output.write(wtf8.decode(tuples[p][0]) + ', ' + tuples[p][1] + ', ' + ((tuples[p][1] / totalAmount) * 100).toFixed(2) + '%\n');
+		pieData.push({name: wtf8.decode(tuples[p][0]), y: tuples[p][1], percent: ((tuples[p][1] / totalAmount) * 100).toFixed(2)});
+	}
+	return createChartDetails(title + ' / Total : ' + totalAmount, pieData);
+}
 module.exports = {
 	detectEmoji: detectEmoji,
-	createChartDetails: createChartDetails
+	createChartDetails: createChartDetails,
+	exportData: exportData
 };
