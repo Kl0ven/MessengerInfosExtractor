@@ -12,7 +12,8 @@ runTasks(file, [tasks.getPseudoList,
 	tasks.getMostReactedMessage,
 	tasks.getConvNames,
 	tasks.getNumbersOfReactionPerUser,
-	tasks.getNumberOfEmotPerUser
+	tasks.getNumberOfEmotPerUser,
+	tasks.getNumberOfEmotPerEmot
 ]);
 
 async function runTasks (file, tasks) {

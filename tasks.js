@@ -32,7 +32,7 @@ function getConvNames (file, output) {
 function getNumbersOfMsgPerUser (file, output) {
 	var participants = file.participants;
 	var msgs = file.messages;
-	var resultats = {};
+	var resultats = [];
 	let pieData = [];
 	let numberOfMsg = Object.keys(msgs).length;
 
@@ -47,7 +47,7 @@ function getNumbersOfMsgPerUser (file, output) {
 	}
 
 	for (var p in resultats) {
-		output.write(wtf8.decode(p) + ', ' + resultats[p] + '\n');
+		output.write(wtf8.decode(p) + ', ' + resultats[p] + ',' + ((resultats[p] / numberOfMsg) * 100).toFixed(2) + '%\n');
 		pieData.push({name: wtf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfMsg) * 100).toFixed(2)});
 	}
 
@@ -78,7 +78,7 @@ function getMostReactedMessage (file, output) {
 function getNumbersOfReactionPerUser (file, output) {
 	var participants = file.participants;
 	var msgs = file.messages;
-	var resultats = {};
+	var resultats = [];
 	let pieData = [];
 	var numberOfReactions = 0;
 
@@ -99,7 +99,7 @@ function getNumbersOfReactionPerUser (file, output) {
 	}
 
 	for (var p in resultats) {
-		output.write(wtf8.decode(p) + ', ' + resultats[p] + '\n');
+		output.write(wtf8.decode(p) + ', ' + resultats[p] + ',' + ((resultats[p] / numberOfReactions) * 100).toFixed(2) + '%\n');
 		pieData.push({name: wtf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfReactions) * 100).toFixed(2)});
 	}
 
@@ -109,7 +109,7 @@ function getNumbersOfReactionPerUser (file, output) {
 function getNumberOfEmotPerUser (file, output) {
 	var participants = file.participants;
 	var msgs = file.messages;
-	var resultats = {};
+	var resultats = [];
 	let pieData = [];
 	var numberOfEmots = 0;
 
@@ -128,10 +128,37 @@ function getNumberOfEmotPerUser (file, output) {
 		}
 	}
 	for (var p in resultats) {
-		output.write(wtf8.decode(p) + ', ' + resultats[p] + '\n');
+		output.write(wtf8.decode(p) + ', ' + resultats[p] + ',' + ((resultats[p] / numberOfEmots) * 100).toFixed(2) + '%\n');
 		pieData.push({name: wtf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfEmots) * 100).toFixed(2)});
 	}
 	return utils.createChartDetails(`Emots per user / Total : ${numberOfEmots}`, pieData);
+}
+
+function getNumberOfEmotPerEmot (file, output) {
+	var msgs = file.messages;
+	var resultats = [];
+	let pieData = [];
+	var numberOfEmots = 0;
+
+	for (let i in msgs) {
+		let m = msgs[i];
+		let emots;
+		if (m.hasOwnProperty('content')) {
+			emots = utils.detectEmoji(m.content);
+			numberOfEmots += emots.length;
+			for (var e in emots) {
+				if (resultats.hasOwnProperty(emots[e]) === false) {
+					resultats[emots[e]] = 0;
+				}
+				resultats[emots[e]] += 1;
+			}
+		}
+	}
+	for (var p in resultats) {
+		output.write(wtf8.decode(p) + ', ' + resultats[p] + ',' + ((resultats[p] / numberOfEmots) * 100).toFixed(2) + '%\n');
+		pieData.push({name: wtf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfEmots) * 100).toFixed(2)});
+	}
+	return utils.createChartDetails(`Emots usage / Total : ${numberOfEmots}`, pieData);
 }
 
 module.exports = {
@@ -140,5 +167,6 @@ module.exports = {
 	getMostReactedMessage: getMostReactedMessage,
 	getConvNames: getConvNames,
 	getNumbersOfReactionPerUser: getNumbersOfReactionPerUser,
-	getNumberOfEmotPerUser: getNumberOfEmotPerUser
+	getNumberOfEmotPerUser: getNumberOfEmotPerUser,
+	getNumberOfEmotPerEmot: getNumberOfEmotPerEmot
 };

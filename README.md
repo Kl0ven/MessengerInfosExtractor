@@ -18,4 +18,6 @@ All results will be available in the Outputs folders, one file for each tasks.
 - getNumbersOfMsgPerUser : it speeks for itself
 - getMostReactedMessage : again easy ;)
 - getNumbersOfReactionPerUser
+- getNumberOfEmotPerUser
+- getNumberOfEmotPerEmot
 - hopefully more to come 😅
