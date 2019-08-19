@@ -1,4 +1,5 @@
 const utf8 = require('utf8');
+const utils = require('./utils.js');
 
 function getPseudoList (file, output) {
 	var msgs = file.messages;
@@ -50,34 +51,7 @@ function getNumbersOfMsgPerUser (file, output) {
 		pieData.push({name: utf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfMsg) * 100).toFixed(2)});
 	}
 
-	const chartDetails = {
-		type: 'png',
-		scale: 3,
-		options: {
-			chart: {
-				type: 'pie'
-			},
-			title: {
-				text: `Messages per user / Total : ${numberOfMsg}`
-			},
-			plotOptions: {
-				pie: {
-					dataLabels: {
-						enabled: true,
-						format: '<b>{point.name}</b><br/> {point.y} ({point.percent}%)'
-					},
-					size: '75%'
-				}
-			},
-			series: [
-				{
-					data: pieData
-				}
-			]
-		}
-	};
-
-	return chartDetails;
+	return utils.createChartDetails(`Messages per user / Total : ${numberOfMsg}`, pieData);
 }
 
 function getMostReactedMessage (file, output) {
@@ -128,34 +102,36 @@ function getNumbersOfReactionPerUser (file, output) {
 		output.write(utf8.decode(p) + ', ' + resultats[p] + '\n');
 		pieData.push({name: utf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfReactions) * 100).toFixed(2)});
 	}
-	const chartDetails = {
-		type: 'png',
-		scale: 3,
-		options: {
-			chart: {
-				type: 'pie'
-			},
-			title: {
-				text: `Reactions per user / Total : ${numberOfReactions}`
-			},
-			plotOptions: {
-				pie: {
-					dataLabels: {
-						enabled: true,
-						format: '<b>{point.name}</b><br/> {point.y} ({point.percent}%)'
-					},
-					size: '75%'
-				}
-			},
-			series: [
-				{
-					data: pieData
-				}
-			]
-		}
-	};
 
-	return chartDetails;
+	return utils.createChartDetails(`Reactions per user / Total : ${numberOfReactions}`, pieData);
+}
+
+function getNumberOfEmotPerUser (file, output) {
+	var participants = file.participants;
+	var msgs = file.messages;
+	var resultats = {};
+	let pieData = [];
+	var numberOfEmots = 0;
+
+	for (let i in participants) {
+		let p = participants[i];
+		resultats[p.name] = 0;
+	}
+
+	for (let i in msgs) {
+		let m = msgs[i];
+		let emots;
+		if (m.hasOwnProperty('content')) {
+			emots = utils.detectEmoji(m.content);
+			numberOfEmots += emots.length;
+			resultats[m.sender_name] += emots.length;
+		}
+	}
+	for (var p in resultats) {
+		output.write(utf8.decode(p) + ', ' + resultats[p] + '\n');
+		pieData.push({name: utf8.decode(p), y: resultats[p], percent: ((resultats[p] / numberOfEmots) * 100).toFixed(2)});
+	}
+	return utils.createChartDetails(`Emots per user / Total : ${numberOfEmots}`, pieData);
 }
 
 module.exports = {
@@ -163,5 +139,6 @@ module.exports = {
 	getNumbersOfMsgPerUser: getNumbersOfMsgPerUser,
 	getMostReactedMessage: getMostReactedMessage,
 	getConvNames: getConvNames,
-	getNumbersOfReactionPerUser: getNumbersOfReactionPerUser
+	getNumbersOfReactionPerUser: getNumbersOfReactionPerUser,
+	getNumberOfEmotPerUser: getNumberOfEmotPerUser
 };

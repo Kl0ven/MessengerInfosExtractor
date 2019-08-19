@@ -1,6 +1,6 @@
 {
   "name": "pseudoconvextractor",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Extract data from messenger  'Download Your Information' ",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,8 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "highcharts-export-server": "^2.0.24",
-    "utf8": "^3.0.0"
+    "node-emoji": "^1.10.0",
+    "utf8": "^3.0.0",
+    "wtf-8": "^1.0.1"
   }
 }
