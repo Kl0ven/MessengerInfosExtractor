@@ -6,7 +6,8 @@ Extract data from messenger using "Download Your Information" (https://www.messe
 
 ## How does it work
 
-Set `message_filename` to your path of the conversation json file  and launch with `npm start`!
+First run `npm install`,   
+Then set `message_filename` to your path of the conversation json file  and launch with `npm start`!
 
 All results will be available in the Outputs folders, one file for each tasks.
 
@@ -16,5 +17,5 @@ All results will be available in the Outputs folders, one file for each tasks.
 - getConvNames : get every name of the groupe
 - getNumbersOfMsgPerUser : it speeks for itself
 - getMostReactedMessage : again easy ;)
-- getNumbersOfReactionPerUser 
+- getNumbersOfReactionPerUser
 - hopefully more to come 😅
