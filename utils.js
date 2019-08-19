@@ -45,7 +45,7 @@ function createChartDetails (title, data) {
 	};
 }
 
-function exportData (resultats, output, totalAmount, title) {
+function exportData (resultats, output, totalAmount, title, emojify) {
 	let pieData = [];
 	var tuples = [];
 	for (var key in resultats) tuples.push([key, resultats[key]]);
@@ -54,7 +54,7 @@ function exportData (resultats, output, totalAmount, title) {
 	});
 
 	for (var p in tuples) {
-		output.write(wtf8.decode(tuples[p][0]) + ', ' + tuples[p][1] + ', ' + ((tuples[p][1] / totalAmount) * 100).toFixed(2) + '%\n');
+		output.write((emojify ? emoji.emojify(wtf8.decode(tuples[p][0])) : wtf8.decode(tuples[p][0])) + ', ' + tuples[p][1] + ', ' + ((tuples[p][1] / totalAmount) * 100).toFixed(2) + '%\n');
 		pieData.push({name: wtf8.decode(tuples[p][0]), y: tuples[p][1], percent: ((tuples[p][1] / totalAmount) * 100).toFixed(2)});
 	}
 	return createChartDetails(title + ' / Total : ' + totalAmount, pieData);

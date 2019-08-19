@@ -139,7 +139,7 @@ function getNumberOfEmotPerEmot (file, output) {
 		}
 	}
 
-	return utils.exportData(resultats, output, numberOfEmots, `Emots usage`);
+	return utils.exportData(resultats, output, numberOfEmots, `Emots usage`, true);
 }
 
 module.exports = {
