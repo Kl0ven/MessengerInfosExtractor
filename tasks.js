@@ -135,6 +135,65 @@ function getNumberOfEmotPerEmot (file, output) {
     return utils.exportData(resultats, output, numberOfEmots, `Emots usage`, true);
 }
 
+function getMemeLord (file, output) {
+    const points = {
+        ':satisfied:': 2,
+        ':thumbsup:': 1,
+        ':thumbsdown:': -1,
+        ':open_mouth:': 1,
+        ':cry:': 1,
+        ':angry:': 2,
+        ':heartpulse:': 2,
+        ':heart:': 2,
+        ':heart_eyes:': 2
+    };
+    // init
+    const participants = file.participants.reduce( (acc, p) => {
+        acc[p.name] = {
+            score: 0,
+            numberOfMeme: 0
+        };
+        return acc;
+    }, {});
+    const msgs = file.messages;
+
+    // calculating scores
+    const resultats = msgs.reduce(reduceScores, participants);
+
+    function reduceScores (p, msg) {
+        score = 0;
+        if (msg.hasOwnProperty('reactions')) {
+            msg.reactions.map( r => {
+                score += points[utils.detectEmoji(r.reaction)];
+            });
+        }
+        p[msg.sender_name].score += score;
+        p[msg.sender_name].numberOfMeme += 1;
+        return p;
+    }
+
+    // normalazing scores
+    const normalizedResult = {};
+    for (const key in resultats) {
+        if (resultats.hasOwnProperty(key)) {
+            normalizedResult[key] = resultats[key].score / resultats[key].numberOfMeme;
+        }
+    }
+
+    const sortableResult = [];
+    for (const name in normalizedResult) {
+        if (normalizedResult.hasOwnProperty(name)) {
+            sortableResult.push([name, normalizedResult[name]]);
+        }
+    }
+    sortableResult.sort(function (a, b) {
+        return b[1] - a[1];
+    });
+    sortableResult.forEach(function (v) {
+        output.write(v[0] + ' = '+ v[1] + '\n');
+    });
+}
+
 module.exports = {
     getPseudoList: getPseudoList,
     getNumbersOfMsgPerUser: getNumbersOfMsgPerUser,
@@ -142,5 +201,6 @@ module.exports = {
     getConvNames: getConvNames,
     getNumbersOfReactionPerUser: getNumbersOfReactionPerUser,
     getNumberOfEmotPerUser: getNumberOfEmotPerUser,
-    getNumberOfEmotPerEmot: getNumberOfEmotPerEmot
+    getNumberOfEmotPerEmot: getNumberOfEmotPerEmot,
+    getMemeLord: getMemeLord
 };

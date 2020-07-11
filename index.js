@@ -7,13 +7,15 @@ const messageFilename = 'message_1.json';
 const contents = fs.readFileSync(messageFilename);
 const file = JSON.parse(contents);
 
-runTasks(file, [tasks.getPseudoList,
+runTasks(file, [
+    tasks.getPseudoList,
     tasks.getNumbersOfMsgPerUser,
     tasks.getMostReactedMessage,
     tasks.getConvNames,
     tasks.getNumbersOfReactionPerUser,
     tasks.getNumberOfEmotPerUser,
-    tasks.getNumberOfEmotPerEmot
+    tasks.getNumberOfEmotPerEmot,
+    tasks.getMemeLord
 ]);
 
 async function runTasks (file, tasks) {
