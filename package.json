@@ -14,5 +14,9 @@
     "highcharts-export-server": "^2.0.24",
     "node-emoji": "^1.10.0",
     "wtf-8": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
